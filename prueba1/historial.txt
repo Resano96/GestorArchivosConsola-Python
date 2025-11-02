@@ -1,0 +1,13 @@
+La funcion ha sido: <function cambiar_ubicacion at 0x000001E13E70BE20>
+Se actua sobre: C:\Users\Ander\Desktop\Programacion\python\ProyectoNavidadGestorDeArchivos\prueba1\prueba1
+La funcion ha sido: <function cambiar_ubicacion at 0x000002C96F0F7D80>
+Se actua sobre: C:\Users\Ander\Desktop\Programacion\python\ProyectoNavidadGestorDeArchivos\prueba1\prueba1
+El resultado es: Ruta actual Actualmente estas en: 
+C:\Users\Ander\Desktop\Programacion\python\ProyectoNavidadGestorDeArchivos\prueba1
+La funcion ha sido: <function listar_directorio at 0x000002C9723E71A0>
+Se actua sobre: C:\Users\Ander\Desktop\Programacion\python\ProyectoNavidadGestorDeArchivos\prueba1\.
+{'archivos': ['historial.txt'], 'directorios': []}
+La funcion ha sido: <function cambiar_ubicacion at 0x000002C96F0F7D80>
+Se actua sobre: C:\Users\Ander\Desktop\Programacion\python\ProyectoNavidadGestorDeArchivos\prueba1\.
+El resultado es: Ruta actual Actualmente estas en: 
+C:\Users\Ander\Desktop\Programacion\python\ProyectoNavidadGestorDeArchivos\prueba1
