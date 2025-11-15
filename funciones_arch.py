@@ -42,8 +42,7 @@ def escribir_en_archivo_ia(archivo):
             tema = input(f"Sobre que tema quieres escribir en {archivo}?")
             lineas = input("Cuantas lineas rellenamos?")
             seriedad = input("Como de serio lo escribimos? 1-humor 5-serio")
-            imaginacion = input("Tengo demasiada imaginacion... cuanta uso? 1-creativo 5-literal")
-            texto = IA(tema, lineas, seriedad, imaginacion)
+            texto = IA(tema, lineas, seriedad)
             with open(archivo, "w", encoding="utf-8") as f:
                 f.write(texto)
                 return f"No me gustaba el tema de los {tema} pero algo hemos conseguido hacer"

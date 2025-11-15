@@ -12,7 +12,7 @@ client = InferenceClient(token=os.getenv("HUGGINGFACE_API_KEY"))
 
 # Esta funcion es para usar HuggingFace, una ia limitada pero gratuita.
 # Cada IA tiene su estructura que puedes encontrar en la documentacion.
-def write_text_hugging(tema, numero_de_lineas, nivel_seriedad, nivel_imaginacion):
+def write_text_hugging(tema, numero_de_lineas, nivel_seriedad):
     """
     Genera texto con la API de Hugging Face y lo devuelve.
 
@@ -44,7 +44,7 @@ def write_text_hugging(tema, numero_de_lineas, nivel_seriedad, nivel_imaginacion
         REGLA 1 (MÁS IMPORTANTE): El texto debe tener **exactamente {numero_de_lineas} líneas en total**. Ni una más, ni una menos.
         REGLA 2: El tema es: {tema}.
         REGLA 3: El nivel de seriedad debe ser {nivel_seriedad} (1=informal, 5=formal).
-        REGLA 4: El nivel de imaginación debe ser {nivel_imaginacion} (1=fantástico, 5=factual).
+        REGLA 4: El nivel de imaginación debe ser el minimo posible, cumple todas las reglas obligatoriamente.
         REGLA 5 (MUY IMPORTANTE): **El idioma es castellano (español de España)**.
 
         Responde únicamente con el texto de {numero_de_lineas} líneas. No incluyas títulos, saludos, introducciones, ni explicaciones.
@@ -55,7 +55,7 @@ def write_text_hugging(tema, numero_de_lineas, nivel_seriedad, nivel_imaginacion
             "model": "mistralai/Mistral-7B-Instruct-v0.2",
             "messages": [
                 {
-                    "role": "system",
+                    "role": "Escritor de textos breves",
                     "content": "Eres un generador de contenido experto. Tu única función es escribir texto que se ajuste perfectamente a las especificaciones del usuario, listo para ser guardado directamente en un archivo."
                 },
                 {"role": "user", "content": prompt}
