@@ -3,7 +3,7 @@ import os
 from dotenv import load_dotenv
 from huggingface_hub import InferenceClient
 
-# esto sirve para cargar un archivo del env, sirve para ocultar apis y cosas que no interesa subir
+# esto sirve para cargar un archivo del env, env sirve para ocultar apis y cosas que no interesa subir
 load_dotenv()
 
 # aqui le pasamos la api key de la ia en cuestion al cliente
@@ -14,8 +14,22 @@ client = InferenceClient(token=os.getenv("HUGGINGFACE_API_KEY"))
 # Cada IA tiene su estructura que puedes encontrar en la documentacion.
 def write_text_hugging(tema, numero_de_lineas, nivel_seriedad, nivel_imaginacion):
     """
-    Genera texto con la API de Hugging Face y lo añade a 'archivo.txt'.
-    Devuelve un string (frase) indicando el resultado.
+    Genera texto con la API de Hugging Face y lo devuelve.
+
+    Entrada:
+
+    tema--->Tema a escribir
+
+    lineas-->Lineas a escribir
+
+    seriedad-->1-5nivel de seriedad
+
+    imaginacion -->1-5Cuanto se puede inventar
+
+
+    Salida:
+
+    Texto solicitado
     """
 
     # si la api esta mal montada return error
@@ -59,9 +73,6 @@ def write_text_hugging(tema, numero_de_lineas, nivel_seriedad, nivel_imaginacion
 
 
         return generated_text
-        # 4. Intentar escribir en el archivo (dentro del mismo try)
-
-
 
 
     # 5. Manejar los posibles errores
