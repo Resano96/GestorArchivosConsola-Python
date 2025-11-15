@@ -15,9 +15,9 @@ def listar_directorio(ruta = "."):
     for elem in elementos: # Separar archivos y directorios
 
         if os.path.isfile(elem):
-            resultado["archivos"].append(elem) # Añadir a la lista de archivos
+            resultado["archivos"].append(elem) # Aniadir a la lista de archivos
         elif os.path.isdir(elem):
-            resultado["directorios"].append(elem) # Añadir a la lista de directorios
+            resultado["directorios"].append(elem) # Aniadir a la lista de directorios
 
     return resultado #Devolver un diccionario con archivos y directorios por separado
 
@@ -25,28 +25,29 @@ def listar_directorio(ruta = "."):
 def crear_directorio(name):
     if os.path.exists(name): # Comprobar si ya existe
         return f"El directorio {name} ya existe.\n"
-    if "/"in name:
+    elif "/"in name:# Si tiene / crea la ruta completa
         os.makedirs(name)
         return f"Directorios creados con exito\n"
     else:
-        os.mkdir(name) # Crear directorio
-    return f"Directorio {name} creado con exito\n"
+        try:
+            os.mkdir(name) # Crear directorio
+            return f"Directorio {name} creado con exito\n"
+        except FileNotFoundError:
+            return f"No has puesto nada. Vuelve a empezar, por listo"
 
-
-
-
+#Elimina un nuevo directorio
 def eliminar_directorio(ruta):
     try:
-        os.rmdir(ruta)
+        os.rmdir(ruta)#Prueba a eliminarlo
         return f" Carpeta {ruta} eliminada con exito\n"
-    except FileNotFoundError:
+    except FileNotFoundError:#Si no encuentra el archivo
         return f"{ruta} no existe en este directorio\n"
 
     except NotADirectoryError:  # Comprobar si es un directorio
         return f"{ruta} no es un directorio.\n"
 
-    except OSError:
+    except OSError: #Si no esta vacia elimina todo lo de dentro
         shutil.rmtree(ruta)
 
-        return f" Carpeta {ruta} y sus subelementos eliminada con exito\n"
+        return f"Carpeta {ruta} y sus subelementos eliminada con exito\n"
 

@@ -1,2 +1,0 @@
-La funcion ha sido: <function cambiar_ubicacion at 0x0000023E6075BE20>
-Se actua sobre: C:\Users\Ander\Desktop\Programacion\python\ProyectoNavidadGestorDeArchivos\asd\asd

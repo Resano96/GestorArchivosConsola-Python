@@ -1,13 +1,17 @@
-import json
-from datetime import datetime
+
 import os
+from pathlib import Path
+
 
 def cambiar_ubicacion(ruta):
     try:
         os.chdir(ruta)
-        return f"Ruta actual {mostrar_ubicacion()}"
+        return mostrar_ubicacion()
     except FileNotFoundError:
-        print( f"no hay un directorio llamado {ruta}")
+        return  f"no hay un directorio llamado {ruta}"
+    except OSError:
+        return f"ruta no valida: {ruta}"
+
 
 
 def montar_ubicacion(*ruta):
@@ -19,85 +23,48 @@ def montar_ubicacion(*ruta):
 def mostrar_ubicacion():
     return f"Actualmente estas en: \n"+ os.getcwd()
 
+
+
 def guardar_historial(tipo,command):
+    ubicacion_padre = Path(__file__).parent
+    ubicacion =ubicacion_padre / "historial" / "historial.txt"
 
     if tipo =="pregunta":
         hist = "Se actua sobre: "+ montar_ubicacion(command)
     elif tipo == "funcion":
         hist = "La funcion ha sido: "+ command
     elif tipo == "resultado":
-        hist = "El resultado es: "+ command
+        hist = "El resultado es: "+ (str(command))
     elif tipo == "dict":
         hist = command
     else:
         hist = "Nada"
     try:
-        with open("historial.txt", 'a', encoding='utf-8') as archivo:
+        with open(ubicacion, 'a', encoding='utf-8') as archivo:
             archivo.write(str(hist) + "\n")
 
     except Exception as e:
         print(f"Error al guardar el comando: {e}")
 
-def generar_log_accesos():
-    #nombre del JSON
-    logger = "hist.json"
-    if not os.path.isfile:
-        return
-
-    #extraemos los datos del JSON
-
-    with open(logger, "r") as f:
-        datos = json.load(f)
-
-    #verificamos contraseña
-    verificacion = comprobar_contraseña(input("dime la contraseña"))
-    #fecha actual
-    fecha = datetime.now()
-    #formateamos la fecha
-    fecha_formateada = fecha.strftime("%c")
-    #diccionareamos la respuesta de comprobar contraseña con fecha
-
-    intento ={
-        "fecha": fecha_formateada,
-        "passIntroducida": verificacion[1],
-        "passCorrecta": verificacion[0],
-        "accesoConcedido": verificacion[2]
-        }
-    datos.append(intento)
-    with open(logger, "w") as f:
-            json.dump(datos, f)
-    return "Hecho"
-
-#recibe una contraseña del cliente y la comprueba con la que esta en .env
-def comprobar_contraseña(password):
-    from dotenv import load_dotenv
-    load_dotenv()
-
-    pass_real = os.getenv("CONTRASEÑA")
-    if pass_real is not None:
-        return [pass_real,password,True] if pass_real==password else [pass_real,password,False]
-#devuelve un array [pass_real,password introducida, True/False]
-
-
-
 def comando(pregunta, funcion):
-
+    respuesta_cli = "."
     if pregunta.lower() != "n":
         respuesta_cli =input(pregunta)
-        respuesta = funcion(respuesta_cli)
-        funcion_texto = repr(funcion)
-        guardar_historial("funcion", funcion_texto)
-        guardar_historial("pregunta", respuesta_cli)
-        guardar_historial("resultado",respuesta)
-        return respuesta
-
-    respuesta_cli ="."
 
     respuesta = funcion(respuesta_cli)
     funcion_texto = repr(funcion)
     guardar_historial("funcion", funcion_texto)
     guardar_historial("pregunta", respuesta_cli)
-    guardar_historial("dict", respuesta)
+    guardar_historial("resultado", respuesta)
     return respuesta
 
+def mostrar_historial():
+    ubicacion_padre = Path(__file__).parent
+    ubicacion = ubicacion_padre / "historial" / "historial.txt"
+    try:
+        with open(ubicacion, 'r', encoding='utf-8') as archivo:
+            comandos = archivo.read()
+    except Exception as e:
+        print(f"Error: {e} al leer el archivo ")
+    print(comandos)
 

@@ -1,23 +1,24 @@
-import funciones
-from funciones import cambiar_ubicacion
-from funciones_arch import eliminar_archivo, escribir_en_archivo_ia, escribir_en_archivo, crear_archivo_texto
+
+from funciones import cambiar_ubicacion, mostrar_historial, comando, mostrar_ubicacion
+from funciones_arch import eliminar_archivo, escribir_en_archivo_ia, escribir_en_archivo, crear_archivo_texto, \
+    mostrar_informacion_archivo
 from funciones_dir import listar_directorio, crear_directorio, eliminar_directorio
 
 
 def print_menu():
     print("\n-_-_-_-_-Gestor de Archivos en Consola-_-_-_-_-")
-    print("------Comandos de directorios------")
-    print("1. Listar contenido del directorio actual")
-    print("2. Crear un nuevo directorio")
-    print("3. Eliminar un directorio")
-    print("4. Cambiar de directorio")
-    print("------Comandos de archivos------")
-    print("5. Crear un nuevo archivo de texto")
-    print("6. Escribir en un archivo de texto")
-    print("7. Eliminar un archivo")
-    print("8. Mostrar informacion del archivo")
-    print("------Salir------")
-    print("9. Historial y salir")
+    print("------------Comandos de directorios------------")
+    print("\t1. Listar contenido del directorio actual")
+    print("\t2. Crear un nuevo directorio")
+    print("\t3. Eliminar un directorio")
+    print("\t4. Cambiar de directorio")
+    print("------------Comandos de archivos---------------")
+    print("\t5. Crear un nuevo archivo de texto")
+    print("\t6. Escribir en un archivo de texto")
+    print("\t7. Eliminar un archivo")
+    print("\t8. Mostrar informacion del archivo")
+    print("------------Salir------------------------------")
+    print("\t9. Historial y salir\n")
 
 
 
@@ -28,11 +29,11 @@ def main():
         print_menu()
     
         try:
-            choice = int(input("Elige una opcion: "))
+            choice = int(input("Elige una opcion: \n"))
 
             match choice:
                 case 1:
-                    elementos= funciones.comando("n", listar_directorio)
+                    elementos= comando("n", listar_directorio)
                     directorios = '\n'. join(elementos["directorios"])
                     archivos = '\n'.join(elementos["archivos"])
                     print(f"en la carpeta actual tenemos \n"
@@ -46,71 +47,78 @@ def main():
                 case 2:
                     pregunta ="Nombre del nuevo directorio: \n"
 
-                    print(funciones.comando(pregunta,crear_directorio))
+                    print(comando(pregunta,crear_directorio))
 
                 case 3:
 
-                    print(funciones.mostrar_ubicacion())
+                    print(mostrar_ubicacion())
+                    elementos = listar_directorio()
+                    directorios = '\n'.join(elementos["directorios"])
+                    print(f"en la carpeta actual tenemos \n"
+                          f"{len(elementos["directorios"])} directorios \n"
+                          f"______________________\n"
+                          f"{directorios}\n")
 
                     pregunta ="Que directorio quieres eliminar?\n"
 
-                    print(funciones.comando(pregunta, eliminar_directorio))
+                    print(comando(pregunta, eliminar_directorio))
 
                 case 4:
 
-                    funciones.mostrar_ubicacion()
+                    print(mostrar_ubicacion())
 
                     elementos = listar_directorio()
                     directorios = '\n'.join(elementos["directorios"])
 
-                    print(f"Puedes acceder a estos directorios desde aqui: {directorios}")
+                    print(f"Puedes acceder a estos directorios desde aqui: \n{directorios}")
 
-                    pregunta ="A que directorio quieres ir?"
+                    pregunta ="A que directorio quieres ir?\n"
 
 
-                    print(funciones.comando(pregunta, cambiar_ubicacion))
+                    print(comando(pregunta, cambiar_ubicacion))
 
                 case 5:
                     pregunta ="Como llamamos al txt? \n"
-                    print(funciones.comando(pregunta,crear_archivo_texto))
+                    print(comando(pregunta,crear_archivo_texto))
 
                 case 6:
+                    ia = input("Quieres usar la ia? (s/n) \n(Para usarla hay que poner primero la api)\n")
 
-                    ia = input("Quieres usar la ia? (s/n) (Para usarla hay que poner primero la api)")
-                    pregunta = input("Que archivo rellenamos? \n"
-                                    "damelo con extension y todo \n"
-                                    "con .env puedes meter la api de ia")
+                    pregunta = ("Que archivo rellenamos? \n"
+                                    "damelo con extension \n"
+                                    "con .env puedes meter la api de ia\n")
                     if ia.lower() == "s":
-                        print(funciones.comando(pregunta,escribir_en_archivo_ia))
-                    else:
-                        print(funciones.comando(pregunta,escribir_en_archivo))
 
+                        print(comando(pregunta,escribir_en_archivo_ia))
+                    else:
+
+                        print(comando(pregunta,escribir_en_archivo))
 
                 case 7:
                     elementos = listar_directorio()
-                    print(f"En la ubicacion actual tienes: \n"
-                          f"{elementos["archivos"]}")
-                    pregunta ="Que archivo quieres eliminar?"
-                    print(funciones.comando(pregunta,eliminar_archivo))
-
+                    archivos = '\n'.join(elementos["archivos"])
+                    print(f"en la carpeta actual tenemos \n"
+                          f"{len(elementos["archivos"])} archivos \n"
+                          f"______________________\n"
+                          f"{archivos}\n")
+                    pregunta ="Que archivo quieres eliminar?\n"
+                    print(comando(pregunta,eliminar_archivo))
 
                 case 8:
-                    preguntas = [
-
-                    ]
-                    archivo= input("Dime cual es el archivo del que quieres ver la info(con extension)")
-                    info = funciones.mostrar_informacion_archivo(archivo)
+                    pregunta ="Dime cual es el archivo del que quieres ver la info\n(con extension)\n"
+                    info = comando(pregunta,mostrar_informacion_archivo)
                     print("No se que archivo es ese") if len(info) !=5 else (
                         print(  f"El nombre del archivo es: {info[0]}\n"
                             f"La extension del archivo es: {info[1]}\n"
-                            f"El tamaño en bytes es: {info[2]}\n"
+                            f"El tamanio en bytes es: {info[2]}\n"
                             f"La fecha y hora de creacion es: {info[3]}\n"
                             f"La ultima fecha y hora del acceso es: {info[4]}"
                           ))
 
                 case 9:
 
-                    print("Durante esta sesion has hecho las siguientes acciones:")
+                    print("El historial actual es :\n")
+                    mostrar_historial()
 
                     break
 
